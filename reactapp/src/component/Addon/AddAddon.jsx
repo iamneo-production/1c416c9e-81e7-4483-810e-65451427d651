@@ -1,0 +1,124 @@
+import React, {useState, useEffect} from 'react'
+import {Link, useNavigate, useParams } from 'react-router-dom';
+import AddonService from '../../services/AddonService'
+
+const AddAddon = () => {
+
+    const [addonName, setAddonName] = useState('')
+    const [addonPrice, setAddonPrice] = useState('')
+    const [addonDetails, setAddonDetails] = useState('')
+    const navigate = useNavigate();
+    const {id} = useParams();
+
+    const saveOrUpdateAddon = (e) => {
+        e.preventDefault();
+
+        const addon = {addonName, addonPrice, addonDetails}
+
+        if(id){
+            AddonService.updateAddon(id, addon).then((response) => {
+                console.log(response.data)
+                navigate('/getAddon')
+            }).catch(error => {
+                console.log(error)
+            })
+
+        }else{
+            AddonService.createAddon(addon).then((response) =>{
+
+                console.log(response.data)
+    
+                navigate('/getAddon');
+    
+            }).catch(error => {
+                console.log(error)
+            })
+        }
+        
+    }
+
+    useEffect(() => {
+
+        AddonService.getAddonById(id).then((response) =>{
+            setAddonName(response.data.addonName)
+            setAddonPrice(response.data.addonPrice)
+            setAddonDetails(response.data.addonDetails)
+        }).catch(error => {
+            console.log(error)
+        })
+    }, [])
+
+    const title = () => {
+
+        if(id){
+            return <h2 className = "text-center">Update Addon</h2>
+        }else{
+            return <h2 className = "text-center">Add Addon</h2>
+        }
+    }
+
+    return (
+        <div>
+           <br /><br />
+           <div className = "container">
+                <div className = "row">
+                    <div className = "card col-md-6 offset-md-3 offset-md-3">
+                       {
+                           title()
+                       }
+                        <div className = "card-body">
+                            <form>
+                                <div className = "form-group mb-2">
+                                    <label className = "form-label"> Addon Name :</label>
+                                    <input
+                                        type = "text"
+                                        placeholder = "Enter Addon name"
+                                        name = "addonName"
+                                        className = "form-control"
+                                        value = {addonName}
+                                        onChange = {(e) => setAddonName(e.target.value)}
+                                    >
+                                    </input>
+                                </div>
+
+                                <div className = "form-group mb-2">
+                                    <label className = "form-label"> Addon Price :</label>
+                                    <input
+                                        type = "text"
+                                        placeholder = "Enter Addon Price"
+                                        name = "addonPrice"
+                                        className = "form-control"
+                                        value = {addonPrice}
+                                        onChange = {(e) => setAddonPrice(e.target.value)}
+                                    >
+                                    </input>
+                                </div>
+
+                                <div className = "form-group mb-2">
+                                    <label className = "form-label"> Addon Details :</label>
+                                    <input
+                                        type = "text"
+                                        placeholder = "Enter Addon Details"
+                                        name = "addonDetails"
+                                        className = "form-control"
+                                        value = {addonDetails}
+                                        onChange = {(e) => setAddonDetails(e.target.value)}
+                                    >
+                                    </input>
+                                </div>
+
+                                <button className = "btn btn-success" onClick = {(e) => saveOrUpdateAddon(e)} >Submit </button>
+                                <Link to="/getAddon" className="btn btn-danger"> Cancel </Link>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+
+           </div>
+
+        </div>
+    )
+}
+
+export default AddAddon
