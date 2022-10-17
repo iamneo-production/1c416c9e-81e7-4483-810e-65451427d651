@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { Link } from 'react-router-dom'
-import PremiumplanService from '../../services/PremiumplanService'
+import UserService from '../../services/user.service'
 
 const Preimumplan = () => {
 
@@ -9,26 +9,26 @@ const Preimumplan = () => {
     useEffect(() => {
 
         getAllPlans();
-    }, [])
+    }, []);
 
     
     const getAllPlans = () => {
-        PremiumplanService.getAllPlans().then((response) => {
+        UserService.getAllPlans().then((response) => {
             setPlans(response.data)
             console.log(response.data);
         }).catch(error =>{
             console.log(error);
         })
-    }
+    };
 
     const deleteByPlan = (planId) => {
-       PremiumplanService.deletePlan(planId).then((response) =>{
+       UserService.deletePlan(planId).then((response) =>{
           getAllPlans();
        }).catch(error =>{
            console.log(error);
        })
         
-    }
+    };
 
     return (
         <div className = "container">
@@ -66,7 +66,7 @@ const Preimumplan = () => {
                 </tbody>
             </table>
         </div>
-    )
-}
+    );
+};
 
-export default Preimumplan
+export default Preimumplan;

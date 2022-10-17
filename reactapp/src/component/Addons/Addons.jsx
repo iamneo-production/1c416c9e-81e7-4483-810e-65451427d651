@@ -1,25 +1,25 @@
 import React, {useState, useEffect} from 'react'
 import { Link } from 'react-router-dom'
-import AddService from '../../services/AddService'
+import UserService from '../../services/user.service'
 
 const Addons = () => {
 
-    const [addons, setAddons] = useState([])
+    const [addons, setAddons] = useState([]);
 
     useEffect(() => {
 
         getAllAddons();
-    }, [])
+    }, []);
 
     
     const getAllAddons = () => {
-        AddService.getAllAddons().then((response) => {
+        UserService.getAllRechargeAddons().then((response) => {
             setAddons(response.data)
             console.log(response.data);
         }).catch(error =>{
             console.log(error);
         })
-    }
+    };
 
     return (
         <div className = "container">
@@ -50,7 +50,7 @@ const Addons = () => {
                 </tbody>
             </table>
         </div>
-    )
-}
+    );
+};
 
-export default Addons
+export default Addons;

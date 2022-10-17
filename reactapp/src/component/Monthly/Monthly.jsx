@@ -1,34 +1,35 @@
 import React, {useState, useEffect} from 'react'
 import { Link } from 'react-router-dom'
-import MonthlyService from '../../services/MonthlyService'
+import UserService from '../../services/user.service'
 
 const MonthlyPlan = () => {
 
-    const [plans, setPlans] = useState([])
+    const [plans, setPlans] = useState([]);
 
     useEffect(() => {
 
         getAllPlans();
-    }, [])
+    }, []);
 
     
     const getAllPlans = () => {
-        MonthlyService.getAllPlans().then((response) => {
+        UserService.getAllMonthlyPlans().then((response) => {
             setPlans(response.data)
             console.log(response.data);
         }).catch(error =>{
             console.log(error);
         })
-    }
+    };
 
     const deleteByPlan = (planId) => {
-       MonthlyService.deletePlan(planId).then((response) =>{
-          getAllPlans();
+       UserService.deleteMonthlyPlan(planId).then((response) =>{
+            console.log(response.data);
+            getAllPlans();
        }).catch(error =>{
-           console.log(error);
+            console.log(error);
        })
         
-    }
+    };
 
     return (
         <div className = "container">
@@ -66,7 +67,7 @@ const MonthlyPlan = () => {
                 </tbody>
             </table>
         </div>
-    )
-}
+    );
+};
 
-export default MonthlyPlan
+export default MonthlyPlan;

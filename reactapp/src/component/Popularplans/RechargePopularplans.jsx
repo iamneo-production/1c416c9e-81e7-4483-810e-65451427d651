@@ -1,30 +1,30 @@
 import React, {useState, useEffect} from 'react'
 import {Link, useNavigate, useParams } from 'react-router-dom';
-import PopularplansService from '../../services/PopularplansService'
+import UserService from '../../services/user.service'
 
 const RechargePopularplans = () => {
 
-    const [planType, setPlanType] = useState('')
-    const [planName, setPlanName] = useState('')
-    const [planValidity, setPlanValidity] = useState('')
-    const [planDetails, setPlanDetails] = useState('')
-    const [planPrice, setPlanPrice] = useState('')
+    const [planType, setPlanType] = useState('');
+    const [planName, setPlanName] = useState('');
+    const [planValidity, setPlanValidity] = useState('');
+    const [planDetails, setPlanDetails] = useState('');
+    const [planPrice, setPlanPrice] = useState('');
     const navigate = useNavigate();
     const {id} = useParams();
 
-    const [rechargeType, setRechargeType] = useState('')
-    const [name, setName] = useState('')
-    const [mobile, setMobile] = useState('')
-    const [email, setEmail] = useState('')
-    const [rechargePlan, setRechargePlan] = useState('')
-    const [rechargePrice, setRechargePrice] = useState('')
+    const [rechargeType, setRechargeType] = useState('');
+    const [name, setName] = useState('');
+    const [mobile, setMobile] = useState('');
+    const [email, setEmail] = useState('');
+    const [rechargePlan, setRechargePlan] = useState('');
+    const [rechargePrice, setRechargePrice] = useState('');
 
     const saveRecharge = (e) => {
         e.preventDefault();
         
         const recharge = {planType, name, mobile, email, planName, planPrice}
         
-        PopularplansService.createRecharge(recharge).then((response) =>{
+        UserService.createRecharge(recharge).then((response) =>{
 
             console.log(response.data)
 
@@ -34,11 +34,11 @@ const RechargePopularplans = () => {
             console.log(error)
         })
         
-    }
+    };
 
     useEffect(() => {
 
-        PopularplansService.getPlanById(id).then((response) =>{
+        UserService.getPopularPlanById(id).then((response) =>{
             setPlanType(response.data.planType)
             setPlanName(response.data.planName)
             setPlanValidity(response.data.planValidity)
@@ -47,12 +47,12 @@ const RechargePopularplans = () => {
         }).catch(error => {
             console.log(error)
         })
-    }, [])
+    }, []);
 
     const title = () => {
 
         return <h2 className = "text-center">Recharge Plan</h2>
-    }
+    };
 
     return (
         <div>
@@ -154,7 +154,7 @@ const RechargePopularplans = () => {
            </div>
 
         </div>
-    )
-}
+    );
+};
 
-export default RechargePopularplans
+export default RechargePopularplans;

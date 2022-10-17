@@ -1,22 +1,22 @@
 import React, {useState, useEffect} from 'react'
 import {Link, useNavigate, useParams } from 'react-router-dom';
-import AddonService from '../../services/AddonService'
+import UserService from '../../services/user.service'
 
 const AddAddon = () => {
 
-    const [addonName, setAddonName] = useState('')
-    const [addonPrice, setAddonPrice] = useState('')
-    const [addonDetails, setAddonDetails] = useState('')
+    const [addonName, setAddonName] = useState('');
+    const [addonPrice, setAddonPrice] = useState('');
+    const [addonDetails, setAddonDetails] = useState('');
     const navigate = useNavigate();
     const {id} = useParams();
 
     const saveOrUpdateAddon = (e) => {
         e.preventDefault();
 
-        const addon = {addonName, addonPrice, addonDetails}
+        const addon = {addonName, addonPrice, addonDetails};
 
         if(id){
-            AddonService.updateAddon(id, addon).then((response) => {
+            UserService.updateAddon(id, addon).then((response) => {
                 console.log(response.data)
                 navigate('/getAddon')
             }).catch(error => {
@@ -24,7 +24,7 @@ const AddAddon = () => {
             })
 
         }else{
-            AddonService.createAddon(addon).then((response) =>{
+            UserService.createAddon(addon).then((response) =>{
 
                 console.log(response.data)
     
@@ -35,18 +35,18 @@ const AddAddon = () => {
             })
         }
         
-    }
+    };
 
     useEffect(() => {
 
-        AddonService.getAddonById(id).then((response) =>{
+        UserService.getAddonById(id).then((response) =>{
             setAddonName(response.data.addonName)
             setAddonPrice(response.data.addonPrice)
             setAddonDetails(response.data.addonDetails)
         }).catch(error => {
             console.log(error)
-        })
-    }, [])
+        });
+    }, []);
 
     const title = () => {
 
@@ -55,7 +55,7 @@ const AddAddon = () => {
         }else{
             return <h2 className = "text-center">Add Addon</h2>
         }
-    }
+    };
 
     return (
         <div>
@@ -118,7 +118,7 @@ const AddAddon = () => {
            </div>
 
         </div>
-    )
-}
+    );
+};
 
-export default AddAddon
+export default AddAddon;

@@ -1,24 +1,24 @@
 import React, {useState, useEffect} from 'react'
 import {Link, useNavigate, useParams } from 'react-router-dom';
-import PremiumplanService from '../../services/PremiumplanService'
+import UserService from '../../services/user.service'
 
 const AddPremiumplan = () => {
 
-    const [planType, setPlanType] = useState('')
-    const [planName, setPlanName] = useState('')
-    const [planValidity, setPlanValidity] = useState('')
-    const [planDetails, setPlanDetails] = useState('')
-    const [planPrice, setPlanPrice] = useState('')
+    const [planType, setPlanType] = useState('');
+    const [planName, setPlanName] = useState('');
+    const [planValidity, setPlanValidity] = useState('');
+    const [planDetails, setPlanDetails] = useState('');
+    const [planPrice, setPlanPrice] = useState('');
     const navigate = useNavigate();
     const {id} = useParams();
 
     const saveOrUpdatePlan = (e) => {
         e.preventDefault();
 
-        const plan = {planType, planName, planValidity, planDetails, planPrice}
+        const plan = {planType, planName, planValidity, planDetails, planPrice};
 
         if(id){
-            PremiumplanService.updatePlan(id, plan).then((response) => {
+            UserService.updatePlan(id, plan).then((response) => {
                 console.log(response.data)
                 navigate('/getAllPremiumPlan')
             }).catch(error => {
@@ -26,7 +26,7 @@ const AddPremiumplan = () => {
             })
 
         }else{
-            PremiumplanService.createPlan(plan).then((response) =>{
+            UserService.createPlan(plan).then((response) =>{
 
                 console.log(response.data)
     
@@ -37,11 +37,11 @@ const AddPremiumplan = () => {
             })
         }
         
-    }
+    };
 
     useEffect(() => {
 
-        PremiumplanService.getPlanById(id).then((response) =>{
+        UserService.getPlanById(id).then((response) =>{
             setPlanType(response.data.planType)
             setPlanName(response.data.planName)
             setPlanValidity(response.data.planValidity)
@@ -49,8 +49,8 @@ const AddPremiumplan = () => {
             setPlanPrice(response.data.planPrice)
         }).catch(error => {
             console.log(error)
-        })
-    }, [])
+        });
+    }, []);
 
     const title = () => {
 
@@ -59,7 +59,7 @@ const AddPremiumplan = () => {
         }else{
             return <h2 className = "text-center">Add Premium Plans</h2>
         }
-    }
+    };
 
     return (
         <div>
@@ -148,7 +148,7 @@ const AddPremiumplan = () => {
            </div>
 
         </div>
-    )
-}
+    );
+};
 
-export default AddPremiumplan
+export default AddPremiumplan;

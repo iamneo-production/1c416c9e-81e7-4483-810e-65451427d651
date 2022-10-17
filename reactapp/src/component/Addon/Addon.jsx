@@ -1,34 +1,34 @@
 import React, {useState, useEffect} from 'react'
 import { Link } from 'react-router-dom'
-import AddonService from '../../services/AddonService'
+import UserService from '../../services/user.service'
 
 const Addon = () => {
 
-    const [addons, setAddons] = useState([])
+    const [addons, setAddons] = useState([]);
 
     useEffect(() => {
 
         getAllAddons();
-    }, [])
+    }, []);
 
     
     const getAllAddons = () => {
-        AddonService.getAllAddons().then((response) => {
+        UserService.getAllAddons().then((response) => {
             setAddons(response.data)
             console.log(response.data);
         }).catch(error =>{
             console.log(error);
         })
-    }
+    };
 
     const deleteByAddon = (addonId) => {
-       AddonService.deleteAddon(addonId).then((response) =>{
+       UserService.deleteAddon(addonId).then((response) =>{
           getAllAddons();
        }).catch(error =>{
            console.log(error);
        })
         
-    }
+    };
 
     return (
         <div className = "container">
@@ -62,7 +62,7 @@ const Addon = () => {
                 </tbody>
             </table>
         </div>
-    )
-}
+    );
+};
 
-export default Addon
+export default Addon;

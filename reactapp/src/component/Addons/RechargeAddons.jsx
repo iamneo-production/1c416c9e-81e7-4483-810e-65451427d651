@@ -1,21 +1,21 @@
 import React, {useState, useEffect} from 'react'
 import {Link, useNavigate, useParams } from 'react-router-dom';
-import AddService from '../../services/AddService'
+import UserService from '../../services/user.service'
 
 const RechargeAddons = () => {
 
-    const [addonName, setAddonName] = useState('')
-    const [addonPrice, setAddonPrice] = useState('')
-    const [addonDetails, setAddonDetails] = useState('')
+    const [addonName, setAddonName] = useState('');
+    const [addonPrice, setAddonPrice] = useState('');
+    const [addonDetails, setAddonDetails] = useState('');
     const navigate = useNavigate();
     const {id} = useParams();
 
-    const [rechargeType, setRechargeType] = useState('')
-    const [name, setName] = useState('')
-    const [mobile, setMobile] = useState('')
-    const [email, setEmail] = useState('')
-    const [rechargePlan, setRechargePlan] = useState('')
-    const [rechargePrice, setRechargePrice] = useState('')
+    const [rechargeType, setRechargeType] = useState('');
+    const [name, setName] = useState('');
+    const [mobile, setMobile] = useState('');
+    const [email, setEmail] = useState('');
+    const [rechargePlan, setRechargePlan] = useState('');
+    const [rechargePrice, setRechargePrice] = useState('');
 
     
 
@@ -24,9 +24,10 @@ const RechargeAddons = () => {
 
         const recharge = {addonName, name, mobile, email, rechargePlan, addonPrice}
 
-            AddService.createRecharge(recharge).then((response) =>{
+            UserService.createAddonRecharge(recharge).then((response) =>{
 
                 console.log(response.data)
+                alert("Recharge successsful...!");
     
                 navigate('/getAllRechargeAddon');
     
@@ -34,22 +35,22 @@ const RechargeAddons = () => {
                 console.log(error)
             })
         
-    }
+    };
 
     useEffect(() => {
 
-        AddService.getAddonById(id).then((response) =>{
+        UserService.getRechargeAddonById(id).then((response) =>{
             setAddonName(response.data.addonName)
             setAddonPrice(response.data.addonPrice)
             setAddonDetails(response.data.addonDetails)
         }).catch(error => {
             console.log(error)
-        })
-    }, [])
+        });
+    }, []);
 
     const title = () => {
             return <h2 className = "text-center">Recharge Addon</h2>
-    }
+    };
 
     return (
         <div>
@@ -135,7 +136,7 @@ const RechargeAddons = () => {
                                         name = "addonPrice"
                                         className = "form-control"
                                         value = {addonPrice}
-                                        onChange = {(e) => setAddonPrice(e.target.value), (e)=>setRechargePrice(e.target.value)}
+                                        onChange = {(e) => setAddonPrice(e.target.value)}
                                     >
                                     </input>
                                 </div>
@@ -151,7 +152,7 @@ const RechargeAddons = () => {
            </div>
 
         </div>
-    )
-}
+    );
+};
 
-export default RechargeAddons
+export default RechargeAddons;

@@ -1,14 +1,14 @@
 import React, {useState, useEffect} from 'react'
 import {Link, useNavigate, useParams } from 'react-router-dom';
-import MonthlyService from '../../services/MonthlyService'
+import UserService from '../../services/user.service'
 
 const AddMonthlyPlan = () => {
 
-    const [planType, setPlanType] = useState('')
-    const [planName, setPlanName] = useState('')
-    const [planValidity, setPlanValidity] = useState('')
-    const [planDetails, setPlanDetails] = useState('')
-    const [planPrice, setPlanPrice] = useState('')
+    const [planType, setPlanType] = useState('');
+    const [planName, setPlanName] = useState('');
+    const [planValidity, setPlanValidity] = useState('');
+    const [planDetails, setPlanDetails] = useState('');
+    const [planPrice, setPlanPrice] = useState('');
     const navigate = useNavigate();
     const {id} = useParams();
 
@@ -18,7 +18,7 @@ const AddMonthlyPlan = () => {
         const plan = {planType, planName, planValidity, planDetails, planPrice}
 
         if(id){
-            MonthlyService.updatePlan(id, plan).then((response) => {
+            UserService.updateMonthlyPlan(id, plan).then((response) => {
                 console.log(response.data)
                 navigate('/getAllMonthlyPlan')
             }).catch(error => {
@@ -26,7 +26,7 @@ const AddMonthlyPlan = () => {
             })
 
         }else{
-            MonthlyService.createPlan(plan).then((response) =>{
+            UserService.createMonthlyPlan(plan).then((response) =>{
 
                 console.log(response.data)
     
@@ -37,11 +37,11 @@ const AddMonthlyPlan = () => {
             })
         }
         
-    }
+    };
 
     useEffect(() => {
 
-        MonthlyService.getPlanById(id).then((response) =>{
+        UserService.getMonthlyPlanById(id).then((response) =>{
             setPlanType(response.data.planType)
             setPlanName(response.data.planName)
             setPlanValidity(response.data.planValidity)
@@ -49,8 +49,8 @@ const AddMonthlyPlan = () => {
             setPlanPrice(response.data.planPrice)
         }).catch(error => {
             console.log(error)
-        })
-    }, [])
+        });
+    }, []);
 
     const title = () => {
 
@@ -59,7 +59,7 @@ const AddMonthlyPlan = () => {
         }else{
             return <h2 className = "text-center">Add Monthly Plans</h2>
         }
-    }
+    };
 
     return (
         <div>
@@ -148,7 +148,7 @@ const AddMonthlyPlan = () => {
            </div>
 
         </div>
-    )
-}
+    );
+};
 
-export default AddMonthlyPlan
+export default AddMonthlyPlan;

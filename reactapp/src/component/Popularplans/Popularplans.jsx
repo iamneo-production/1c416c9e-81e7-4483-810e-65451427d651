@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { Link } from 'react-router-dom'
-import PopularplansService from '../../services/PopularplansService'
+import UserService from '../../services/user.service'
 
 const Popularplans = () => {
 
@@ -9,17 +9,17 @@ const Popularplans = () => {
     useEffect(() => {
 
         getAllPlans();
-    }, [])
+    }, []);
 
     
     const getAllPlans = () => {
-        PopularplansService.getAllPlans().then((response) => {
+        UserService.getAllPopularPlans().then((response) => {
             setPlans(response.data)
             console.log(response.data);
         }).catch(error =>{
             console.log(error);
         })
-    }
+    };
 
     return (
         <div className = "container">
@@ -54,7 +54,7 @@ const Popularplans = () => {
                 </tbody>
             </table>
         </div>
-    )
-}
+    );
+};
 
-export default Popularplans
+export default Popularplans;
