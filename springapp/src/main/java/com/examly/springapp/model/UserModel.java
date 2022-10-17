@@ -1,41 +1,60 @@
 package com.examly.springapp.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
+@Table(name = "user_model", 
+    uniqueConstraints = { 
+      @UniqueConstraint(columnNames = "username"),
+      @UniqueConstraint(columnNames = "email") 
+    })
 public class UserModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
+
+    @NotBlank
     private String email;
+    
+    @NotBlank
     private String password;
+
+    @NotBlank
     private String username;
+
+    @NotBlank
     private String mobileNumber;
-    private String userRole;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable( name = "user_roles", 
+        joinColumns = @JoinColumn(name = "user_id"), 
+        inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> userRole = new HashSet<>();
 
     public UserModel(){
 
     }
 
-    public UserModel(String email, String username, String mobileNumber, String userRole){
+    public UserModel(String email, String username, String mobileNumber, String password){
         super();
         this.email=email;
         this.username=username;
         this.mobileNumber=mobileNumber;
-        this.userRole=userRole;
+        this.password=password;
     }
-    
-    public int getId() {
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -64,12 +83,14 @@ public class UserModel {
         this.mobileNumber = mobileNumber;
     }
 
-    public String getUserRole() {
+    public Set<Role> getUserRole() {
         return userRole;
     }
 
-    public void setUserRole(String userRole) {
+    public void setUserRole(Set<Role> userRole) {
         this.userRole = userRole;
     }
+
+    
     
 }

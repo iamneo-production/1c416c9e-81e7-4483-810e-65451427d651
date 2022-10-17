@@ -3,6 +3,7 @@ package com.examly.springapp.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.validation.constraints.NotBlank;
 import javax.persistence.Id;
 
 @Entity
@@ -11,19 +12,25 @@ public class AddonModel{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int addonId;
+
+    @NotBlank
     private String addonName;
-    private int addonPrice;
-    private String AddonDetails;
+
+    @NotBlank
+    private String addonPrice;
+
+    @NotBlank
+    private String addonDetails;
     
     public AddonModel(){
 
     }
 
-    public AddonModel(String addonName, int addonPrice, String AddonDetails){
+    public AddonModel(String addonName, String addonPrice, String addonDetails){
         super();
         this.addonName=addonName;
         this.addonPrice=addonPrice;
-        this.AddonDetails=AddonDetails;
+        this.addonDetails=addonDetails;
     }
 
     public int getAddonId() {
@@ -38,17 +45,23 @@ public class AddonModel{
     public void setAddonName(String addonName) {
         this.addonName = addonName;
     }
-    public int getAddonPrice() {
+
+    public String getAddonPrice() {
         return addonPrice;
     }
-    public void setAddonPrice(int addonPrice) {
+
+    public void setAddonPrice(String addonPrice) {
         this.addonPrice = addonPrice;
     }
+
     public String getAddonDetails() {
-        return AddonDetails;
+        return addonDetails;
     }
+
     public void setAddonDetails(String addonDetails) {
-        AddonDetails = addonDetails;
+        this.addonDetails = addonDetails;
     }
+
+    
     
 }

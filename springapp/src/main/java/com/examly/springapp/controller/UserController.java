@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.examly.springapp.model.UserModel;
 import com.examly.springapp.repository.UserRepository;
@@ -23,25 +24,26 @@ import com.examly.springapp.exception.ResourceNotFoundException;
 
 @CrossOrigin(origins = "https://8081-ddbdacaccaaebbfaaecebafeebbfdeebfce.examlyiopb.examly.io")
 @RestController
-@RequestMapping("/user")
 public class UserController {
     
     @Autowired
     private UserRepository userRepository;
 
 
-    @PostMapping("/signup")
+    /*@PostMapping("/signup")
     public UserModel addUser(@RequestBody UserModel newUser){
          return userRepository.save(newUser);
-    }
+    }*/
     
-    @GetMapping("/getUser")
+    @GetMapping("/user/getUser")
+    @PreAuthorize("hasRole('ADMIN')")
     public List<UserModel> getUser(){
         return userRepository.findAll();
     }
 
-    @PutMapping("/editUser/{id}")
-    public ResponseEntity<UserModel> editUser(@PathVariable int id, @RequestBody UserModel data){
+    @PutMapping("/user/editUser/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<UserModel> editUser(@PathVariable Long id, @RequestBody UserModel data){
         UserModel user = userRepository.findById(id)
                     .orElseThrow(() -> new ResourceNotFoundException("User not exit with id:" + id));
 
@@ -54,8 +56,9 @@ public class UserController {
         return ResponseEntity.ok(updatedUser);
     }
 
-    @DeleteMapping("/deleteUser/{id}")
-    public ResponseEntity<Map<String, Boolean>> deleteUser(@PathVariable int id){
+    @DeleteMapping("/user/deleteUser/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Map<String, Boolean>> deleteUser(@PathVariable Long id){
         UserModel user = userRepository.findById(id)
                     .orElseThrow(() -> new ResourceNotFoundException("User not exit with id:" + id));
 

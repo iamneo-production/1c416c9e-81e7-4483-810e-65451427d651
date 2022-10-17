@@ -3,6 +3,7 @@ package com.examly.springapp.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.validation.constraints.NotBlank;
 import javax.persistence.Id;
 
 @Entity
@@ -11,18 +12,30 @@ public class RechargeModel{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int rechargeId;
+
+    @NotBlank
     private String rechargetype;
+
+    @NotBlank
     private String name;
+
+    @NotBlank
     private String mobile;
+
+    @NotBlank
     private String email;
-    private int rechargePlan;
-    private int rechargePrice;
+
+    @NotBlank
+    private String rechargePlan;
+
+    @NotBlank
+    private String rechargePrice;
 
     public RechargeModel(){
 
     }
 
-    public RechargeModel(String rechargetype, String name, String mobile, String email, int rechargePlan, int rechargePrice){
+    public RechargeModel(String rechargetype, String name, String mobile, String email, String rechargePlan, String rechargePrice){
         super();
         this.rechargetype=rechargetype;
         this.name=name;
@@ -62,17 +75,22 @@ public class RechargeModel{
     public void setEmail(String email) {
         this.email = email;
     }
-    public int getRechargePlan() {
+
+    public String getRechargePlan() {
         return rechargePlan;
     }
-    public void setRechargePlan(int rechargePlan) {
+
+    public void setRechargePlan(String rechargePlan) {
         this.rechargePlan = rechargePlan;
     }
-    public int getRechargePrice() {
+
+    public String getRechargePrice() {
         return rechargePrice;
     }
-    public void setRechargePrice(int rechargePrice) {
+
+    public void setRechargePrice(String rechargePrice) {
         this.rechargePrice = rechargePrice;
     }
+    
     
 }

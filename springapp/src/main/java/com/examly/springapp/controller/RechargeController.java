@@ -19,26 +19,29 @@ import org.springframework.web.bind.annotation.RestController;
 import com.examly.springapp.model.RechargeModel;
 import com.examly.springapp.repository.RechargeRepository;
 import com.examly.springapp.exception.ResourceNotFoundException;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 @CrossOrigin(origins = "https://8081-ddbdacaccaaebbfaaecebafeebbfdeebfce.examlyiopb.examly.io")
 @RestController
-@RequestMapping("/user")
 public class RechargeController {
     
     @Autowired
-    private RechargeRepository rechargeRepository;
+    RechargeRepository rechargeRepository;
 
-    @PostMapping("/addRecharge")
+    @PostMapping("/user/addRecharge")
+    @PreAuthorize("hasRole('USER')")
     public RechargeModel addRecharge(@RequestBody RechargeModel plan){
          return rechargeRepository.save(plan);
     }
 
-    @GetMapping("/getRecharge")
+    @GetMapping("/user/getRecharge")
+    @PreAuthorize("hasRole('USER')")
     public List<RechargeModel> viewRecharge(){
         return rechargeRepository.findAll();
     }
 
-    @PutMapping("/editRecharge/{rechargeId}")
+    @PutMapping("/user/editRecharge/{rechargeId}")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<RechargeModel> editRecharge(@PathVariable int rechargeId, @RequestBody RechargeModel data){
         RechargeModel rech = rechargeRepository.findById(rechargeId)
                     .orElseThrow(() -> new ResourceNotFoundException("Recharge not exit with id:" + rechargeId));
@@ -54,7 +57,8 @@ public class RechargeController {
         return ResponseEntity.ok(updatedRecharge);
     }
 
-    @DeleteMapping("/deleteRecharge/{rechargeId}")
+    @DeleteMapping("/user/deleteRecharge/{rechargeId}")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Map<String, Boolean>> deleteRecharge(@PathVariable int rechargeId){
         RechargeModel rech = rechargeRepository.findById(rechargeId)
                     .orElseThrow(() -> new ResourceNotFoundException("Recharge not exit with id:" + rechargeId));

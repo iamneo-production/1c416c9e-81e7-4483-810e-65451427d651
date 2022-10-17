@@ -3,34 +3,35 @@ package com.examly.springapp.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.validation.constraints.NotBlank;
 import javax.persistence.Id;
 
 @Entity
-public class LoginModel {
+public class ReviewModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String email;
-    private String password;
-    
+
+    @NotBlank
+    private String review;
+
     public int getId() {
         return id;
     }
+
     public void setId(int id) {
         this.id = id;
     }
-    public String getEmail() {
-        return email;
+
+    public String getReview() {
+        return review;
     }
-    public void setEmail(String email) {
-        this.email = email;
+
+    public void setReview(String review) {
+        this.review = review;
     }
-    public String getPassword() {
-        return password;
-    }
-    public void setPassword(String password) {
-        this.password = password;
-    }
+
+    
     
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.examly.springapp.model.AddonModel;
 import com.examly.springapp.repository.AddonRepository;
@@ -22,30 +23,33 @@ import com.examly.springapp.exception.ResourceNotFoundException;
 
 @CrossOrigin(origins = "https://8081-ddbdacaccaaebbfaaecebafeebbfdeebfce.examlyiopb.examly.io")
 @RestController
-@RequestMapping("/admin")
 public class AddOnController {
     
     @Autowired
     AddonRepository addonRepository;
 
-    @PostMapping("/addAddon")
+    @PostMapping("/admin/addAddon")
+    @PreAuthorize("hasRole('ADMIN')")
     public AddonModel addAddon(@RequestBody AddonModel data){
         return addonRepository.save(data);
     }
 
-    @GetMapping("/getAddon")
+    @GetMapping("/admin/getAddon")
+    @PreAuthorize("hasRole('ADMIN')")
     public List<AddonModel> getAddon(){
         return addonRepository.findAll();
     }
 
-    @GetMapping("/getAddon/{addonId}")
+    @GetMapping("/admin/getAddon/{addonId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<AddonModel> getAddonById(@PathVariable int addonId){
         AddonModel addon = addonRepository.findById(addonId)
                 .orElseThrow(() -> new ResourceNotFoundException("Addon not exit with id:" + addonId));
         return ResponseEntity.ok(addon);
     }
 
-    @PutMapping("/editAddon/{addonId}")
+    @PutMapping("/admin/editAddon/{addonId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<AddonModel> editAddon(@PathVariable int addonId, @RequestBody AddonModel data){
         AddonModel addon = addonRepository.findById(addonId)
                 .orElseThrow(() -> new ResourceNotFoundException("Addon not exit with id:" + addonId));
@@ -58,7 +62,8 @@ public class AddOnController {
         return ResponseEntity.ok(updatedAddon);
     }
 
-    @DeleteMapping("/deleteAddon/{addonId}")
+    @DeleteMapping("/admin/deleteAddon/{addonId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Map<String, Boolean>> deleteAddon(@PathVariable int addonId){
         AddonModel addon = addonRepository.findById(addonId)
                 .orElseThrow(() -> new ResourceNotFoundException("Addon not exit with id:" + addonId));
@@ -67,6 +72,20 @@ public class AddOnController {
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/user/getAddon")
+    @PreAuthorize("hasRole('USER')")
+    public List<AddonModel> getRechargeAddon(){
+        return addonRepository.findAll();
+    }
+
+    @GetMapping("/user/getAddon/{addonId}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<AddonModel> getRechargeAddonById(@PathVariable int addonId){
+        AddonModel addon = addonRepository.findById(addonId)
+                .orElseThrow(() -> new ResourceNotFoundException("Addon not exit with id:" + addonId));
+        return ResponseEntity.ok(addon);
     }
 
 }
