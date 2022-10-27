@@ -1,14 +1,14 @@
 import React from "react";
-import AuthService from "../services/auth.service";
+import AuthService from "../../services/auth.service";
 
 const Profile = () => {
   const currentUser = AuthService.getCurrentUser();
 
   return (
     <div className="container">
-      <header className="jumbotron">
+      <header>
         <h3>
-          <strong>{currentUser.username}</strong> Profile
+          <strong>Profile</strong> 
         </h3>
       </header>
       <p>
@@ -22,7 +22,7 @@ const Profile = () => {
         <strong>Email:</strong> {currentUser.email}
       </p>
       <p>
-        <strong>Mobile Number:</strong> {currentUser.email}
+        <strong>Mobile Number:</strong> {currentUser.username}
       </p>
       <strong>Authorities:</strong>
       <ul>

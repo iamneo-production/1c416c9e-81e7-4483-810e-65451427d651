@@ -5,9 +5,9 @@ import "./App.css";
 
 import AuthService from "./services/auth.service";
 
-import Login from "./component/Login";
-import Signup from "./component/Signup";
-import Profile from "./component/Profile";
+import Login from "./component/Login/Login";
+import Signup from "./component/Signup/Signup";
+import Profile from "./component/Auth/Auth";
 import Addon from './component/Addon/Addon';
 import AddAddon from './component/Addon/AddAddon';
 import Premiumplans from './component/Premiumplans/Premiumplans'
@@ -86,7 +86,7 @@ const App = () => {
           <div className="navbar-nav ml-auto">
             <li className="nav-item">
               <Link to={"/profile"} className="nav-link">
-                {currentUser.username}
+                Profile
               </Link>
             </li>
             <li className="nav-item">
@@ -104,7 +104,7 @@ const App = () => {
             </li>
 
             <li className="nav-item">
-              <Link to={"/register"} className="nav-link">
+              <Link to={"/signup"} className="nav-link">
                 Sign Up
               </Link>
             </li>

@@ -18,7 +18,7 @@ const getAddonById = (addonId) => {
 };
 
 const updateAddon = (addonId, addon) => {
-    return axios.get(API_URL + "/admin/editAddon/" + addonId, addon, { headers: authHeader() });
+    return axios.put(API_URL + "/admin/editAddon/" + addonId, addon, { headers: authHeader() });
 };
 
 const deleteAddon = (addonId) => {

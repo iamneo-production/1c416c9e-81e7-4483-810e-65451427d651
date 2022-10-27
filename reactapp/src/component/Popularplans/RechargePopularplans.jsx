@@ -1,32 +1,37 @@
 import React, {useState, useEffect} from 'react'
 import {Link, useNavigate, useParams } from 'react-router-dom';
 import UserService from '../../services/user.service'
+import AuthService from "../../services/auth.service";
 
 const RechargePopularplans = () => {
 
-    const [planType, setPlanType] = useState('');
-    const [planName, setPlanName] = useState('');
-    const [planValidity, setPlanValidity] = useState('');
-    const [planDetails, setPlanDetails] = useState('');
-    const [planPrice, setPlanPrice] = useState('');
+    const currentUser = AuthService.getCurrentUser();
+
     const navigate = useNavigate();
     const {id} = useParams();
 
-    const [rechargeType, setRechargeType] = useState('');
+    const [valueType, setValueType] = useState('');
+    const [valuePlan, setValuePlan] = useState('');
+    const [valuePrice, setValuePrice] = useState('');
+
     const [name, setName] = useState('');
-    const [mobile, setMobile] = useState('');
-    const [email, setEmail] = useState('');
-    const [rechargePlan, setRechargePlan] = useState('');
-    const [rechargePrice, setRechargePrice] = useState('');
+    const [mobile, setMobile] = useState(currentUser.mobileNumber);
+    const [email, setEmail] = useState(currentUser.email);
+    
 
     const saveRecharge = (e) => {
         e.preventDefault();
-        
-        const recharge = {planType, name, mobile, email, planName, planPrice}
+
+        let rechargetype = valueType;
+        let rechargePlan = valuePlan;
+        let rechargePrice = valuePrice;
+
+        const recharge = {rechargetype, name, mobile, email, rechargePlan, rechargePrice}
         
         UserService.createRecharge(recharge).then((response) =>{
 
             console.log(response.data)
+            alert("Recharge successsful...!");
 
             navigate('/getAllPopularPlans');
 
@@ -39,11 +44,9 @@ const RechargePopularplans = () => {
     useEffect(() => {
 
         UserService.getPopularPlanById(id).then((response) =>{
-            setPlanType(response.data.planType)
-            setPlanName(response.data.planName)
-            setPlanValidity(response.data.planValidity)
-            setPlanDetails(response.data.planDetails)
-            setPlanPrice(response.data.planPrice)
+            setValueType(response.data.planType)
+            setValuePlan(response.data.planName)
+            setValuePrice(response.data.planPrice)
         }).catch(error => {
             console.log(error)
         })
@@ -72,8 +75,8 @@ const RechargePopularplans = () => {
                                         placeholder = "Enter Recharge Type"
                                         name = "planType"
                                         className = "form-control"
-                                        value = {planType}
-                                        onChange = {(e) => setPlanType(e.target.value)}
+                                        value = {valueType}
+                                        onChange = {(e) => setValueType(e.target.value)}
                                     >
                                     </input>
                                 </div>
@@ -124,8 +127,8 @@ const RechargePopularplans = () => {
                                         placeholder = "Enter Recharge Plan"
                                         name = "planPrice"
                                         className = "form-control"
-                                        value = {id}
-                                        onChange = {(e) => setRechargePlan(e.target.value)}
+                                        value = {valuePlan}
+                                        onChange = {(e) => setValuePlan(e.target.value)}
                                     >
                                     </input>
                                 </div>
@@ -137,8 +140,8 @@ const RechargePopularplans = () => {
                                         placeholder = "Enter Plan Price"
                                         name = "planPrice"
                                         className = "form-control"
-                                        value = {planPrice}
-                                        onChange = {(e) => setPlanPrice(e.target.value)}
+                                        value = {valuePrice}
+                                        onChange = {(e) => setValuePrice(e.target.value)}
                                     >
                                     </input>
                                 </div>

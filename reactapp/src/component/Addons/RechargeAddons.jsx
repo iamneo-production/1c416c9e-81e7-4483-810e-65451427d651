@@ -1,28 +1,30 @@
 import React, {useState, useEffect} from 'react'
 import {Link, useNavigate, useParams } from 'react-router-dom';
 import UserService from '../../services/user.service'
+import AuthService from "../../services/auth.service";
 
 const RechargeAddons = () => {
 
-    const [addonName, setAddonName] = useState('');
-    const [addonPrice, setAddonPrice] = useState('');
-    const [addonDetails, setAddonDetails] = useState('');
+    const currentUser = AuthService.getCurrentUser();
+
     const navigate = useNavigate();
     const {id} = useParams();
 
-    const [rechargeType, setRechargeType] = useState('');
-    const [name, setName] = useState('');
-    const [mobile, setMobile] = useState('');
-    const [email, setEmail] = useState('');
-    const [rechargePlan, setRechargePlan] = useState('');
-    const [rechargePrice, setRechargePrice] = useState('');
+    const [valuePlan, setValuePlan] = useState('');
+    const [valuePrice, setValuePrice] = useState('');
 
-    
+    const [rechargetype, setRechargetype] = useState("Addon");
+    const [name, setName] = useState('');
+    const [mobile, setMobile] = useState(currentUser.mobileNumber);
+    const [email, setEmail] = useState(currentUser.email);
 
     const saveRechargeAddon = (e) => {
         e.preventDefault();
 
-        const recharge = {addonName, name, mobile, email, rechargePlan, addonPrice}
+        let rechargePlan = valuePlan;
+        let rechargePrice = valuePrice;
+
+        const recharge = {rechargetype, name, mobile, email, rechargePlan, rechargePrice}
 
             UserService.createAddonRecharge(recharge).then((response) =>{
 
@@ -32,7 +34,7 @@ const RechargeAddons = () => {
                 navigate('/getAllRechargeAddon');
     
             }).catch(error => {
-                console.log(error)
+                console.log(error.response.data);
             })
         
     };
@@ -40,11 +42,10 @@ const RechargeAddons = () => {
     useEffect(() => {
 
         UserService.getRechargeAddonById(id).then((response) =>{
-            setAddonName(response.data.addonName)
-            setAddonPrice(response.data.addonPrice)
-            setAddonDetails(response.data.addonDetails)
+            setValuePlan(response.data.addonName)
+            setValuePrice(response.data.addonPrice)
         }).catch(error => {
-            console.log(error)
+            console.log(error.response.data);
         });
     }, []);
 
@@ -68,10 +69,10 @@ const RechargeAddons = () => {
                                     <input
                                         type = "text"
                                         placeholder = "Recharge Type"
-                                        name = "addonName"
+                                        name = "rechargeType"
                                         className = "form-control"
-                                        value = {addonName}
-                                        onChange = {(e) => setAddonName(e.target.value)}
+                                        value = {rechargetype}
+                                        onChange = {(e) => setRechargetype(e.target.value)}
                                     >
                                     </input>
                                 </div>
@@ -122,8 +123,8 @@ const RechargeAddons = () => {
                                         placeholder = "Enter Recharge Plan"
                                         name = "rechargePlan"
                                         className = "form-control"
-                                        value = {id}
-                                        onChange = {(e) => setRechargePlan(e.target.value)}
+                                        value = {valuePlan}
+                                        onChange = {(e) => setValuePlan(e.target.value)}
                                     >
                                     </input>
                                 </div>
@@ -133,10 +134,10 @@ const RechargeAddons = () => {
                                     <input
                                         type = "text"
                                         placeholder = "Enter Recharge Price"
-                                        name = "addonPrice"
+                                        name = "rechargePrice"
                                         className = "form-control"
-                                        value = {addonPrice}
-                                        onChange = {(e) => setAddonPrice(e.target.value)}
+                                        value = {valuePrice}
+                                        onChange = {(e) => setValuePrice(e.target.value)}
                                     >
                                     </input>
                                 </div>

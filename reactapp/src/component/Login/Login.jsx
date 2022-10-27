@@ -4,7 +4,7 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 
-import AuthService from "../services/auth.service";
+import AuthService from "../../services/auth.service";
 
 const required = (value) => {
   if (!value) {
@@ -71,14 +71,16 @@ const Login = () => {
   return (
     <div className="col-md-12">
       <div className="card card-container">
-
         <Form onSubmit={handleLogin} ref={form}>
           <div className="form-group">
-            <label htmlFor="username">Username</label>
+            <div> <h2 className = "text-center">Login</h2> </div>
+            <label htmlFor="email">Email</label>
             <Input
               type="text"
               className="form-control"
-              name="username"
+              name="email"
+              id="email"
+              placeholder="Enter email"
               value={username}
               onChange={onChangeUsername}
               validations={[required]}
@@ -91,6 +93,8 @@ const Login = () => {
               type="password"
               className="form-control"
               name="password"
+              id="password"
+              placeholder='Enter Password'
               value={password}
               onChange={onChangePassword}
               validations={[required]}
@@ -98,13 +102,15 @@ const Login = () => {
           </div>
 
           <div className="form-group">
-            <button className="btn btn-primary btn-block" disabled={loading}>
+            <button className="btn btn-primary btn-block" id="loginButton" disabled={loading}>
               {loading && (
                 <span className="spinner-border spinner-border-sm"></span>
               )}
               <span>Login</span>
             </button>
+            <p>New User/Admin?<a id='signupLink' href="/signup">Sign up</a></p>
           </div>
+          
 
           {message && (
             <div className="form-group">
