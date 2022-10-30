@@ -31,11 +31,13 @@ public class RechargeModel{
     @NotBlank
     private String rechargePrice;
 
+    private String rechargedt;
+
     public RechargeModel(){
 
     }
 
-    public RechargeModel(String rechargetype, String name, String mobile, String email, String rechargePlan, String rechargePrice){
+    public RechargeModel(String rechargetype, String name, String mobile, String email, String rechargePlan, String rechargePrice, String rechargedt){
         super();
         this.rechargetype=rechargetype;
         this.name=name;
@@ -43,6 +45,7 @@ public class RechargeModel{
         this.email=email;
         this.rechargePlan=rechargePlan;
         this.rechargePrice=rechargePrice;
+        this.rechargedt=rechargedt;
     }
     
     public int getRechargeId() {
@@ -91,6 +94,13 @@ public class RechargeModel{
     public void setRechargePrice(String rechargePrice) {
         this.rechargePrice = rechargePrice;
     }
-    
+
+    public String getRechargedt() {
+        return rechargedt;
+    }
+
+    public void setRechargedt(String rechargedt) {
+        this.rechargedt = rechargedt;
+    }
     
 }

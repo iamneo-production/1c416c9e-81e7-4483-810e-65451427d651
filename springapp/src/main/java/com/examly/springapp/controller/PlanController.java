@@ -3,6 +3,7 @@ package com.examly.springapp.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.springframework.data.domain.Sort;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,12 +33,6 @@ public class PlanController {
     @PreAuthorize("hasRole('ADMIN')")
     public PlanModel addPlan(@RequestBody PlanModel newPlan){
         return planRepository.save(newPlan);
-    }
-
-    @GetMapping("/admin/getAllPlan")
-    @PreAuthorize("hasRole('ADMIN')")
-    public List<PlanModel> getPlan(){
-        return planRepository.findAll();
     }
 
     @GetMapping("/admin/getPlan/{planId}")
@@ -76,18 +71,60 @@ public class PlanController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/user/getAllPlan")
-    @PreAuthorize("hasRole('USER')")
-    public List<PlanModel> getRechargePlan(){
-        return planRepository.findAll();
-    }
-
     @GetMapping("/user/getPlan/{planId}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<PlanModel> getRechargePlanById(@PathVariable int planId){
         PlanModel plan = planRepository.findById(planId)
                     .orElseThrow(() -> new ResourceNotFoundException("Plan not exit with id:" + planId));
         return ResponseEntity.ok(plan);
+    }
+
+    @GetMapping("/admin/getAllMonthlyPlan")
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<PlanModel> getMonthlyPlan(){
+        return planRepository.findByPlanType("Monthly");
+    }
+
+    @GetMapping("/admin/getAllPremiumPlan")
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<PlanModel> getPremiumPlan(){
+        return planRepository.findByPlanType("Premium");
+    }
+
+    @GetMapping("/user/getAllMonthlyPlanAsc")
+    @PreAuthorize("hasRole('USER')")
+    public List<PlanModel> getMonthlyPlanByAsc(){
+        return planRepository.findByPlanTypeOrderByPlanPriceAsc("Monthly");
+    }
+
+    @GetMapping("/user/getAllMonthlyPlanDesc")
+    @PreAuthorize("hasRole('USER')")
+    public List<PlanModel> getMonthlyPlanByDesc(){
+        return planRepository.findByPlanTypeOrderByPlanPriceDesc("Monthly");
+    }
+
+    @GetMapping("/user/getAllPremiumPlanAsc")
+    @PreAuthorize("hasRole('USER')")
+    public List<PlanModel> getPremiumPlanByAsc(){
+        return planRepository.findByPlanTypeOrderByPlanPriceAsc("Premium");
+    }
+
+    @GetMapping("/user/getAllPremiumPlanDesc")
+    @PreAuthorize("hasRole('USER')")
+    public List<PlanModel> getPremiumPlanByDesc(){
+        return planRepository.findByPlanTypeOrderByPlanPriceDesc("Premium");
+    }
+
+    @GetMapping("/user/getAllPopularPlanAsc")
+    @PreAuthorize("hasRole('USER')")
+    public List<PlanModel> getRechargePlanAsc(){
+        return planRepository.findByOrderByPlanPriceAsc();
+    }
+
+    @GetMapping("/user/getAllPopularPlanDesc")
+    @PreAuthorize("hasRole('USER')")
+    public List<PlanModel> getRechargePlanDesc(){
+        return planRepository.findByOrderByPlanPriceDesc();
     }
 
 }

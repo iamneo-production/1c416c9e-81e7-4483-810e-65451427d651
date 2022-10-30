@@ -87,5 +87,17 @@ public class AddOnController {
                 .orElseThrow(() -> new ResourceNotFoundException("Addon not exit with id:" + addonId));
         return ResponseEntity.ok(addon);
     }
+    
+    @GetMapping("/user/getAddonAsc")
+    @PreAuthorize("hasRole('USER')")
+    public List<AddonModel> getRechargeAddonAsc(){
+        return addonRepository.findByOrderByAddonPriceAsc();
+    }
+
+    @GetMapping("/user/getAddonDesc")
+    @PreAuthorize("hasRole('USER')")
+    public List<AddonModel> getRechargeAddonDesc(){
+        return addonRepository.findByOrderByAddonPriceDesc();
+    }
 
 }

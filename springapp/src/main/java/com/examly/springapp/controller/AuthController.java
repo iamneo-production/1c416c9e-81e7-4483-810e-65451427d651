@@ -33,7 +33,6 @@ import com.examly.springapp.security.jwt.JwtUtils;
 import com.examly.springapp.security.services.UserDetailsImpl;
 
 @CrossOrigin(origins = "https://8081-ddbdacaccaaebbfaaecebafeebbfdeebfce.examlyiopb.examly.io")
-//@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/user")
 public class AuthController {
@@ -57,7 +56,7 @@ public class AuthController {
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
         Authentication authentication = authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+            new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
@@ -89,9 +88,9 @@ public class AuthController {
             .body(new MessageResponse("Error: Email is already in use!"));
         }
 
-        // Create new user's account
-        UserModel user = new UserModel(signUpRequest.getUsername(), 
+        UserModel user = new UserModel(
                 signUpRequest.getEmail(),
+                signUpRequest.getUsername(), 
                 signUpRequest.getMobileNumber(),
                 encoder.encode(signUpRequest.getPassword()));
 

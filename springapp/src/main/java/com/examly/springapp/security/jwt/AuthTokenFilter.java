@@ -35,9 +35,9 @@ public class AuthTokenFilter extends OncePerRequestFilter{
         try {
         String jwt = parseJwt(request);
         if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
-            String username = jwtUtils.getUserNameFromJwtToken(jwt);
+            String email = jwtUtils.getUserNameFromJwtToken(jwt);
 
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
             UsernamePasswordAuthenticationToken authentication =
                 new UsernamePasswordAuthenticationToken(
                     userDetails,
@@ -48,7 +48,7 @@ public class AuthTokenFilter extends OncePerRequestFilter{
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         } catch (Exception e) {
-        logger.error("Cannot set user authentication: {}", e);
+            logger.error("Cannot set user authentication: {}", e);
         }
 
         filterChain.doFilter(request, response);
@@ -58,7 +58,7 @@ public class AuthTokenFilter extends OncePerRequestFilter{
         String headerAuth = request.getHeader("Authorization");
 
         if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
-        return headerAuth.substring(7, headerAuth.length());
+            return headerAuth.substring(7, headerAuth.length());
         }
 
         return null;

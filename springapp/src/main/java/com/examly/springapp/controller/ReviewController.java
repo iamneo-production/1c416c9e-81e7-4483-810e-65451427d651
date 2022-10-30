@@ -27,13 +27,13 @@ public class ReviewController {
     ReviewRepository reviewRepository;
 
     @PostMapping("/user/addReview")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ReviewModel addReview(@RequestBody ReviewModel plan){
-         return reviewRepository.save(plan);
+    @PreAuthorize("hasRole('USER')")
+    public ReviewModel addReview(@RequestBody ReviewModel review){
+         return reviewRepository.save(review);
     }
 
     @GetMapping("/user/getReview")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER')")
     public List<ReviewModel> viewReview(){
         return reviewRepository.findAll();
     }

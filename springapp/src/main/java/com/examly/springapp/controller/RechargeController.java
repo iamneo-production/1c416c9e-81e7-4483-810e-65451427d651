@@ -68,4 +68,17 @@ public class RechargeController {
         response.put("deleted", Boolean.TRUE);
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/user/getRechargeByAsc/{email}")
+    @PreAuthorize("hasRole('USER')")
+    public List<RechargeModel> viewRechargeByEmailAsc(@PathVariable String email){
+        return rechargeRepository.findByEmailOrderByRechargeIdAsc(email);
+    }
+
+    @GetMapping("/user/getRechargeByDesc/{email}")
+    @PreAuthorize("hasRole('USER')")
+    public List<RechargeModel> viewRechargeByEmailDesc(@PathVariable String email){
+        return rechargeRepository.findByEmailOrderByRechargeIdDesc(email);
+    }
+
 }

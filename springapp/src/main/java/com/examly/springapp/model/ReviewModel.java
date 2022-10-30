@@ -14,7 +14,13 @@ public class ReviewModel {
     private int id;
 
     @NotBlank
-    private String review;
+    private String email;
+
+    @NotBlank
+    private String reviewdt;
+
+    @NotBlank
+    private String comments;
 
     public int getId() {
         return id;
@@ -24,14 +30,28 @@ public class ReviewModel {
         this.id = id;
     }
 
-    public String getReview() {
-        return review;
+    public String getEmail() {
+        return email;
     }
 
-    public void setReview(String review) {
-        this.review = review;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    
+    public String getReviewdt() {
+        return reviewdt;
+    }
+
+    public void setReviewdt(String reviewdt) {
+        this.reviewdt = reviewdt;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
     
 }

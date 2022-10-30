@@ -20,7 +20,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import com.examly.springapp.model.UserModel;
 import com.examly.springapp.repository.UserRepository;
 import com.examly.springapp.exception.ResourceNotFoundException;
-//import com.examly.springapp.service.UserService;
 
 @CrossOrigin(origins = "https://8081-ddbdacaccaaebbfaaecebafeebbfdeebfce.examlyiopb.examly.io")
 @RestController
@@ -28,12 +27,6 @@ public class UserController {
     
     @Autowired
     private UserRepository userRepository;
-
-
-    /*@PostMapping("/signup")
-    public UserModel addUser(@RequestBody UserModel newUser){
-         return userRepository.save(newUser);
-    }*/
     
     @GetMapping("/user/getUser")
     @PreAuthorize("hasRole('ADMIN')")
