@@ -11,11 +11,11 @@ const register = (email, username, mobileNumber, password) => {
   });
 };
 
-const login = async (username, password) => {
+const login = async (email, password) => {
   const response = await axios
     .post(API_URL + "/user/login", {
-      username,
-      password,
+      email,
+      password
     });
   if (response.data.accessToken) {
     localStorage.setItem("user", JSON.stringify(response.data));

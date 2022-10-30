@@ -33,27 +33,27 @@ const Addon = () => {
     return (
         <div className = "container">
             <h2 className = "text-center"> List Addons </h2>
-            <Link to = "/addAddon" className = "btn btn-primary mb-2" > Add Addons </Link>
+            <Link to = "/add-addon" className = "btn btn-primary mb-2" id="addAddOn"> Add Addons </Link>
             <table className="table table-bordered table-striped">
                 <thead>
-                    <th> Addon Id </th>
-                    <th> Addon Name </th>
-                    <th> Addon Price </th>
-                    <th> Addon Details </th>
-                    <th> Actions </th>
+                    <tr>
+                        <th> Addon Name </th>
+                        <th> Addon Price </th>
+                        <th> Addon Details </th>
+                        <th> Actions </th>
+                    </tr>
                 </thead>
                 <tbody>
                     {
                         addons.map(
                             addon =>
                             <tr key = {addon.addonId}> 
-                                <td> {addon.addonId} </td>
                                 <td> {addon.addonName} </td>
                                 <td>${addon.addonPrice}</td>
                                 <td>{addon.addonDetails}</td>
                                 <td>
-                                    <Link className="btn btn-info" to={`/editAddon/${addon.addonId}`} >Update</Link>                                
-                                    <button className = "btn btn-danger" onClick = {() => deleteByAddon(addon.addonId)}
+                                    <Link className="btn btn-info" id="editAddOnPlan" to={`/addon/${addon.addonId}`} >Update</Link>                                
+                                    <button className = "btn btn-danger" id="deleteAddOnPlan" onClick = {() => deleteByAddon(addon.addonId)}
                                     style = {{marginLeft:"10px"}}> Delete</button>
                                 </td>
                             </tr>

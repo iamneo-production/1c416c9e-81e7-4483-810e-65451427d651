@@ -4,9 +4,9 @@ import UserService from '../../services/user.service'
 
 const AddPremiumplan = () => {
 
-    const [planType, setPlanType] = useState('');
+    const [planType, setPlanType] = useState("Premium");
     const [planName, setPlanName] = useState('');
-    const [planValidity, setPlanValidity] = useState('');
+    const [planValidity, setPlanValidity] = useState("365 Days");
     const [planDetails, setPlanDetails] = useState('');
     const [planPrice, setPlanPrice] = useState('');
     const navigate = useNavigate();
@@ -20,7 +20,7 @@ const AddPremiumplan = () => {
         if(id){
             UserService.updatePlan(id, plan).then((response) => {
                 console.log(response.data)
-                navigate('/getAllPremiumPlan')
+                navigate('/premium-plan')
             }).catch(error => {
                 console.log(error)
             })
@@ -30,7 +30,7 @@ const AddPremiumplan = () => {
 
                 console.log(response.data)
     
-                navigate('/getAllPremiumPlan');
+                navigate('/premium-plan');
     
             }).catch(error => {
                 console.log(error)
@@ -50,7 +50,7 @@ const AddPremiumplan = () => {
         }).catch(error => {
             console.log(error)
         });
-    }, []);
+    }, []);  // eslint-disable-line
 
     const title = () => {
 
@@ -76,11 +76,12 @@ const AddPremiumplan = () => {
                                     <label className = "form-label"> Plan Type :</label>
                                     <input
                                         type = "text"
+                                        id = "planType"
                                         placeholder = "Enter Plan Type"
                                         name = "planType"
                                         className = "form-control"
                                         value = {planType}
-                                        onChange = {(e) => setPlanType(e.target.value)}
+                                        readOnly
                                     >
                                     </input>
                                 </div>
@@ -89,6 +90,7 @@ const AddPremiumplan = () => {
                                     <label className = "form-label"> Plan Name :</label>
                                     <input
                                         type = "text"
+                                        id = "planName"
                                         placeholder = "Enter Plan Name"
                                         name = "planName"
                                         className = "form-control"
@@ -102,11 +104,12 @@ const AddPremiumplan = () => {
                                     <label className = "form-label"> Plan Validity :</label>
                                     <input
                                         type = "text"
+                                        id = "planValidity"
                                         placeholder = "Enter Plan Validity"
                                         name = "planValidity"
                                         className = "form-control"
                                         value = {planValidity}
-                                        onChange = {(e) => setPlanValidity(e.target.value)}
+                                        readOnly
                                     >
                                     </input>
                                 </div>
@@ -115,6 +118,7 @@ const AddPremiumplan = () => {
                                     <label className = "form-label"> Plan Details :</label>
                                     <input
                                         type = "text"
+                                        id = "planDescription"
                                         placeholder = "Enter Plan Details"
                                         name = "planDetails"
                                         className = "form-control"
@@ -128,6 +132,7 @@ const AddPremiumplan = () => {
                                     <label className = "form-label"> Plan Price :</label>
                                     <input
                                         type = "text"
+                                        id = "planPrice"
                                         placeholder = "Enter Plan Price"
                                         name = "planPrice"
                                         className = "form-control"
@@ -138,7 +143,7 @@ const AddPremiumplan = () => {
                                 </div>
 
                                 <button className = "btn btn-success" onClick = {(e) => saveOrUpdatePlan(e)} >Submit </button>
-                                <Link to="/getAllPremiumPlan" className="btn btn-danger"> Cancel </Link>
+                                <Link to="/premium-plan" className="btn btn-danger"> Cancel </Link>
                             </form>
 
                         </div>

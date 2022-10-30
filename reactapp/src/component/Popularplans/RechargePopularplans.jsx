@@ -14,10 +14,11 @@ const RechargePopularplans = () => {
     const [valuePlan, setValuePlan] = useState('');
     const [valuePrice, setValuePrice] = useState('');
 
-    const [name, setName] = useState('');
+    const [name, setName] = useState(currentUser.username);
     const [mobile, setMobile] = useState(currentUser.mobileNumber);
-    const [email, setEmail] = useState(currentUser.email);
-    
+    const [email] = useState(currentUser.email);
+
+    let curDT= new Date().toLocaleString();
 
     const saveRecharge = (e) => {
         e.preventDefault();
@@ -25,15 +26,16 @@ const RechargePopularplans = () => {
         let rechargetype = valueType;
         let rechargePlan = valuePlan;
         let rechargePrice = valuePrice;
+        let rechargedt = curDT;
 
-        const recharge = {rechargetype, name, mobile, email, rechargePlan, rechargePrice}
+        const recharge = {rechargetype, name, mobile, email, rechargePlan, rechargePrice, rechargedt}
         
         UserService.createRecharge(recharge).then((response) =>{
 
             console.log(response.data)
             alert("Recharge successsful...!");
 
-            navigate('/getAllPopularPlans');
+            navigate('/history');
 
         }).catch(error => {
             console.log(error)
@@ -50,12 +52,7 @@ const RechargePopularplans = () => {
         }).catch(error => {
             console.log(error)
         })
-    }, []);
-
-    const title = () => {
-
-        return <h2 className = "text-center">Recharge Plan</h2>
-    };
+    }, []);  // eslint-disable-line
 
     return (
         <div>
@@ -63,20 +60,19 @@ const RechargePopularplans = () => {
            <div className = "container">
                 <div className = "row">
                     <div className = "card col-md-6 offset-md-3 offset-md-3">
-                       {
-                           title()
-                       }
+                        <h2 className = "text-center">Recharge Plan</h2>
                         <div className = "card-body">
                             <form>
                                 <div className = "form-group mb-2">
                                     <label className = "form-label"> Recharge Type :</label>
                                     <input
                                         type = "text"
+                                        id = "enterRechargeType"
                                         placeholder = "Enter Recharge Type"
                                         name = "planType"
                                         className = "form-control"
                                         value = {valueType}
-                                        onChange = {(e) => setValueType(e.target.value)}
+                                        readOnly
                                     >
                                     </input>
                                 </div>
@@ -85,6 +81,7 @@ const RechargePopularplans = () => {
                                     <label className = "form-label"> Name :</label>
                                     <input
                                         type = "text"
+                                        id = "enterName"
                                         placeholder = "Enter Name"
                                         name = "name"
                                         className = "form-control"
@@ -98,6 +95,7 @@ const RechargePopularplans = () => {
                                     <label className = "form-label"> Mobile :</label>
                                     <input
                                         type = "text"
+                                        id = "enterToRecharge"
                                         placeholder = "Enter Mobile Number"
                                         name = "mobile"
                                         className = "form-control"
@@ -111,11 +109,12 @@ const RechargePopularplans = () => {
                                     <label className = "form-label"> Email :</label>
                                     <input
                                         type = "email"
-                                        placeholder = "Enter Email"
+                                        id = "enterEmailId"
+                                        placeholder = "Enter Email id"
                                         name = "email"
                                         className = "form-control"
                                         value = {email}
-                                        onChange = {(e) => setEmail(e.target.value)}
+                                        readOnly
                                     >
                                     </input>
                                 </div>
@@ -124,11 +123,12 @@ const RechargePopularplans = () => {
                                     <label className = "form-label"> Recharge Plan :</label>
                                     <input
                                         type = "text"
+                                        id = "EnterRechargePlan"
                                         placeholder = "Enter Recharge Plan"
                                         name = "planPrice"
                                         className = "form-control"
                                         value = {valuePlan}
-                                        onChange = {(e) => setValuePlan(e.target.value)}
+                                        readOnly
                                     >
                                     </input>
                                 </div>
@@ -137,17 +137,18 @@ const RechargePopularplans = () => {
                                     <label className = "form-label"> Recharge Price :</label>
                                     <input
                                         type = "text"
+                                        id = "enterRechargePrice"
                                         placeholder = "Enter Plan Price"
                                         name = "planPrice"
                                         className = "form-control"
                                         value = {valuePrice}
-                                        onChange = {(e) => setValuePrice(e.target.value)}
+                                        readOnly
                                     >
                                     </input>
                                 </div>
 
-                                <button className = "btn btn-success" onClick = {(e) => saveRecharge(e)} >Submit </button>
-                                <Link to="/getAllPopularPlans" className="btn btn-danger"> Cancel </Link>
+                                <button className = "btn btn-success" id="rechargeButton" onClick = {(e) => saveRecharge(e)} >Recharge </button>
+                                <Link to="/plan/popular" className="btn btn-danger"> Cancel </Link>
                             </form>
 
                         </div>

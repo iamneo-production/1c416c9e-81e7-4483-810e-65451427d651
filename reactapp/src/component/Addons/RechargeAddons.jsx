@@ -13,25 +13,28 @@ const RechargeAddons = () => {
     const [valuePlan, setValuePlan] = useState('');
     const [valuePrice, setValuePrice] = useState('');
 
-    const [rechargetype, setRechargetype] = useState("Addon");
-    const [name, setName] = useState('');
+    const [rechargetype] = useState("Addon");
+    const [name, setName] = useState(currentUser.username);
     const [mobile, setMobile] = useState(currentUser.mobileNumber);
-    const [email, setEmail] = useState(currentUser.email);
+    const [email] = useState(currentUser.email);
+
+    let curDT= new Date().toLocaleString();
 
     const saveRechargeAddon = (e) => {
         e.preventDefault();
 
         let rechargePlan = valuePlan;
         let rechargePrice = valuePrice;
+        let rechargedt = curDT;
 
-        const recharge = {rechargetype, name, mobile, email, rechargePlan, rechargePrice}
+        const recharge = {rechargetype, name, mobile, email, rechargePlan, rechargePrice, rechargedt}
 
             UserService.createAddonRecharge(recharge).then((response) =>{
 
                 console.log(response.data)
                 alert("Recharge successsful...!");
     
-                navigate('/getAllRechargeAddon');
+                navigate('/history');
     
             }).catch(error => {
                 console.log(error.response.data);
@@ -47,11 +50,7 @@ const RechargeAddons = () => {
         }).catch(error => {
             console.log(error.response.data);
         });
-    }, []);
-
-    const title = () => {
-            return <h2 className = "text-center">Recharge Addon</h2>
-    };
+    }, []);  // eslint-disable-line
 
     return (
         <div>
@@ -59,20 +58,19 @@ const RechargeAddons = () => {
            <div className = "container">
                 <div className = "row">
                     <div className = "card col-md-6 offset-md-3 offset-md-3">
-                       {
-                           title()
-                       }
+                        <h2 className = "text-center">Recharge Addon</h2>
                         <div className = "card-body">
                             <form>
                                 <div className = "form-group mb-2">
                                     <label className = "form-label"> Recharge Type :</label>
                                     <input
                                         type = "text"
+                                        id = "enterRechargeType"
                                         placeholder = "Recharge Type"
                                         name = "rechargeType"
                                         className = "form-control"
                                         value = {rechargetype}
-                                        onChange = {(e) => setRechargetype(e.target.value)}
+                                        readOnly
                                     >
                                     </input>
                                 </div>
@@ -81,6 +79,7 @@ const RechargeAddons = () => {
                                     <label className = "form-label"> Name :</label>
                                     <input
                                         type = "text"
+                                        id = "enterName"
                                         placeholder = "Enter Name"
                                         name = "name"
                                         className = "form-control"
@@ -94,6 +93,7 @@ const RechargeAddons = () => {
                                     <label className = "form-label"> Mobile :</label>
                                     <input
                                         type = "text"
+                                        id = "enterToRecharge"
                                         placeholder = "Enter Mobile Number"
                                         name = "mobile"
                                         className = "form-control"
@@ -107,11 +107,12 @@ const RechargeAddons = () => {
                                     <label className = "form-label"> Email :</label>
                                     <input
                                         type = "email"
+                                        id = "enterEmailId"
                                         placeholder = "Enter Email"
                                         name = "email"
                                         className = "form-control"
                                         value = {email}
-                                        onChange = {(e) => setEmail(e.target.value)}
+                                        readOnly
                                     >
                                     </input>
                                 </div>
@@ -120,11 +121,12 @@ const RechargeAddons = () => {
                                     <label className = "form-label"> Recharge Plan :</label>
                                     <input
                                         type = "text"
+                                        id = "EnterRechargePlan"
                                         placeholder = "Enter Recharge Plan"
                                         name = "rechargePlan"
                                         className = "form-control"
                                         value = {valuePlan}
-                                        onChange = {(e) => setValuePlan(e.target.value)}
+                                        readOnly
                                     >
                                     </input>
                                 </div>
@@ -133,17 +135,18 @@ const RechargeAddons = () => {
                                     <label className = "form-label"> Recharge Price :</label>
                                     <input
                                         type = "text"
+                                        id = "enterRechargePrice"
                                         placeholder = "Enter Recharge Price"
                                         name = "rechargePrice"
                                         className = "form-control"
                                         value = {valuePrice}
-                                        onChange = {(e) => setValuePrice(e.target.value)}
+                                        readOnly
                                     >
                                     </input>
                                 </div>
 
-                                <button className = "btn btn-success" onClick = {(e) => saveRechargeAddon(e)} >Submit </button>
-                                <Link to="/getAllRechargeAddon" className="btn btn-danger"> Cancel </Link>
+                                <button className = "btn btn-success" id="rechargeButton" onClick = {(e) => saveRechargeAddon(e)} >Submit </button>
+                                <Link to="/plan/addon" className="btn btn-danger"> Cancel </Link>
                             </form>
 
                         </div>

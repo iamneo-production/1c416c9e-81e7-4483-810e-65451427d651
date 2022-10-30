@@ -5,7 +5,7 @@ import AuthService from "../../services/auth.service";
 
 const Signup = () =>{
     const [input, setInput] = useState({
-        userRole: '',
+        userRole: "User",
         email: '',
         username: '',
         mobileNumber: '',
@@ -14,7 +14,7 @@ const Signup = () =>{
     });
 
     const [error, setError] = useState({
-        userRole: '',
+        userRole: "User",
         email: '',
         username: '',
         mobileNumber: '',
@@ -71,33 +71,25 @@ const Signup = () =>{
         setError(prev => {
             const stateObj = { ...prev, [name]: ""};
             switch(name){
-                case "userRole":
-                    if(!value){
-                        stateObj[name] = "Please enter Admin/User";
-                    }
-                    break;
-
                 case "email":
                     if(!value){
                         stateObj[name] = "Please enter Email";
-                    }else if (input.email && value!== input.email){
-                      stateObj["email"] = "Please type the username same as email";
-                    }else{
-                      stateObj["email"] = input.email ? "" : error.email;
+                    }else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
+                        stateObj[name] = "Invalid email address";
                     }
                     break;
                 
                 case "username":
                     if(!value){
                         stateObj[name] = "Please enter Username";
-                    }else if (input.password && value !== input.password){
-                      stateObj[name] = "Username and email does not match";
                     }
                     break;
                 
                 case "mobileNumber":
                     if(!value){
                         stateObj[name] = "Please enter Mobile number";
+                    }else if (!(value.match('[0-9]{10}'))){
+                        stateObj[name] = "Invalid Mobile number";
                     }
                     break;
                 
@@ -125,46 +117,40 @@ const Signup = () =>{
             return stateObj;
         })
     }
-    
-    const title = () => {
-        return <h2 className = "text-center">Register</h2>
-    }
+
     return(
         <div>
            <br /><br />
            <div className = "container">
                 <div className = "row">
                     <div className = "card col-md-6 offset-md-3 offset-md-3">
-                       {
-                           title()
-                       }
+                        <h2 className = "text-center">Register</h2>
                         <div className = "card-body">
                             <form>
                                 { !successful && (
                                     <><div className="form-group mb-2">
                                         <label className="form-label"> User Role :</label>
-                                        <input type='text' className="form-control" name='userRole' id='admin/user' placeholder='Enter Admin/User' value={input.userRole} onChange={onInputChange} onBlur={validateInput}></input>
-                                        {error.userRole && <span className='err'>{error.userRole}</span>}
+                                        <input type='text' className="form-control" name='userRole' id='admin/user' placeholder='Enter Admin/User' value={input.userRole} readOnly></input>
                                     </div><div className="form-group mb-2">
                                             <label className="form-label"> Email :</label>
                                             <input type='email' className="form-control" name='email' id='email' placeholder='Enter email' value={input.email} onChange={onInputChange} onBlur={validateInput}></input>
-                                            {error.email && <span className='err'>{error.email}</span>}
+                                            {error.email && <div className="text-danger" role="alert">{error.email}</div>}
                                         </div><div className="form-group mb-2">
                                             <label className="form-label"> Username :</label>
                                             <input type='text' className="form-control" name='username' id='username' placeholder='Enter Username' value={input.username} onChange={onInputChange} onBlur={validateInput}></input>
-                                            {error.username && <span className='err'>{error.username}</span>}
+                                            {error.username && <div className="text-danger" role="alert">{error.username}</div>}
                                         </div><div className="form-group mb-2">
                                             <label className="form-label"> Mobile Number :</label>
                                             <input type='text' className="form-control" name='mobileNumber' id='mobileNumber' placeholder='Enter MobileNumber ' value={input.mobileNumber} onChange={onInputChange} onBlur={validateInput}></input>
-                                            {error.mobileNumber && <span className='err'>{error.mobileNumber}</span>}
+                                            {error.mobileNumber && <div className="text-danger" role="alert">{error.mobileNumber}</div>}
                                         </div><div className="form-group mb-2">
                                             <label className="form-label"> Password :</label>
                                             <input type='password' className="form-control" name='password' id='password' placeholder='Password' value={input.password} onChange={onInputChange} onBlur={validateInput}></input>
-                                            {error.password && <span className='err'>{error.password}</span>}
+                                            {error.password && <div className="text-danger" role="alert">{error.password}</div>}
                                         </div><div className="form-group mb-2">
                                             <label className="form-label"> Confirm Password :</label>
                                             <input type='password' className="form-control" name='confirmPassword' id='confirmPassword' placeholder='Confirm Password' value={input.confirmPassword} onChange={onInputChange} onBlur={validateInput}></input>
-                                            {error.confirmPassword && <span className='err'>{error.confirmPassword}</span>}
+                                            {error.confirmPassword && <div className="text-danger" role="alert">{error.confirmPassword}</div>}
                                         </div><div className="form-group mb-2">
                                             <button className="btn btn-success" id='submitButton' onClick={(e) => saveOrUpdateUser(e)}>Submit</button>
                                         </div><div className="form-group mb-2">
@@ -173,7 +159,7 @@ const Signup = () =>{
                                 )}
                                 {message && (
                                     <div className="form-group">
-                                        <div>
+                                        <div className="alert alert-danger" role="alert">
                                             {message}
                                         </div>
                                     </div>

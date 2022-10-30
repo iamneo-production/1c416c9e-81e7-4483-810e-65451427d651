@@ -18,7 +18,7 @@ const AddAddon = () => {
         if(id){
             UserService.updateAddon(id, addon).then((response) => {
                 console.log(response.data)
-                navigate('/getAddon')
+                navigate('/addon')
             }).catch(error => {
                 console.log(error)
             })
@@ -28,7 +28,7 @@ const AddAddon = () => {
 
                 console.log(response.data)
     
-                navigate('/getAddon');
+                navigate('/addon');
     
             }).catch(error => {
                 console.log(error)
@@ -46,7 +46,7 @@ const AddAddon = () => {
         }).catch(error => {
             console.log(error)
         });
-    }, []);
+    }, []);  // eslint-disable-line
 
     const title = () => {
 
@@ -108,7 +108,7 @@ const AddAddon = () => {
                                 </div>
 
                                 <button className = "btn btn-success" onClick = {(e) => saveOrUpdateAddon(e)} >Submit </button>
-                                <Link to="/getAddon" className="btn btn-danger"> Cancel </Link>
+                                <Link to="/addon" className="btn btn-danger"> Cancel </Link>
                             </form>
 
                         </div>

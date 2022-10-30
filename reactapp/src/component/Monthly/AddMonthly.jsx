@@ -4,9 +4,9 @@ import UserService from '../../services/user.service'
 
 const AddMonthlyPlan = () => {
 
-    const [planType, setPlanType] = useState('');
+    const [planType, setPlanType] = useState("Monthly");
     const [planName, setPlanName] = useState('');
-    const [planValidity, setPlanValidity] = useState('');
+    const [planValidity, setPlanValidity] = useState("30 Days");
     const [planDetails, setPlanDetails] = useState('');
     const [planPrice, setPlanPrice] = useState('');
     const navigate = useNavigate();
@@ -20,7 +20,7 @@ const AddMonthlyPlan = () => {
         if(id){
             UserService.updateMonthlyPlan(id, plan).then((response) => {
                 console.log(response.data)
-                navigate('/getAllMonthlyPlan')
+                navigate('/monthly-plan')
             }).catch(error => {
                 console.log(error)
             })
@@ -30,7 +30,7 @@ const AddMonthlyPlan = () => {
 
                 console.log(response.data)
     
-                navigate('/getAllMonthlyPlan');
+                navigate('/monthly-plan');
     
             }).catch(error => {
                 console.log(error)
@@ -50,7 +50,7 @@ const AddMonthlyPlan = () => {
         }).catch(error => {
             console.log(error)
         });
-    }, []);
+    }, []);  // eslint-disable-line
 
     const title = () => {
 
@@ -80,7 +80,7 @@ const AddMonthlyPlan = () => {
                                         name = "planType"
                                         className = "form-control"
                                         value = {planType}
-                                        onChange = {(e) => setPlanType(e.target.value)}
+                                        readOnly
                                     >
                                     </input>
                                 </div>
@@ -106,7 +106,7 @@ const AddMonthlyPlan = () => {
                                         name = "planValidity"
                                         className = "form-control"
                                         value = {planValidity}
-                                        onChange = {(e) => setPlanValidity(e.target.value)}
+                                        readOnly
                                     >
                                     </input>
                                 </div>
@@ -138,7 +138,7 @@ const AddMonthlyPlan = () => {
                                 </div>
 
                                 <button className = "btn btn-success" onClick = {(e) => saveOrUpdatePlan(e)} >Submit </button>
-                                <Link to="/getAllMonthlyPlan" className="btn btn-danger"> Cancel </Link>
+                                <Link to="/monthly-plan" className="btn btn-danger"> Cancel </Link>
                             </form>
 
                         </div>

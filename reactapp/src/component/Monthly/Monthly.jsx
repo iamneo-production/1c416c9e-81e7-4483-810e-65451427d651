@@ -33,31 +33,31 @@ const MonthlyPlan = () => {
 
     return (
         <div className = "container">
-            <h2 className = "text-center"> List Monthly Plans </h2>
-            <Link to = "/addMonthlyPlan" className = "btn btn-primary mb-2" > Add Plans </Link>
+            <h2 className = "text-center"> Monthly Plans </h2>
+            <Link to = "/add-monthly" className = "btn btn-primary mb-2" id="addPlan"> Add Monthly Plans </Link>
             <table className="table table-bordered table-striped">
                 <thead>
-                    <th> Plan Id </th>
-                    <th> Plan Type </th>
-                    <th> Plan Name </th>
-                    <th> Plan Validity </th>
-                    <th> Plan Details </th>
-                    <th> Plan Price </th>
-                    <th> Actions </th>
+                    <tr>
+                        <th> Plan Type </th>
+                        <th> Plan Name </th>
+                        <th> Plan Validity </th>
+                        <th> Plan Details </th>
+                        <th> Plan Price </th>
+                        <th> Actions </th>
+                    </tr>
                 </thead>
                 <tbody>
                     {
                         plans.map(
                             plan =>
                             <tr key = {plan.planId}> 
-                                <td> {plan.planId} </td>
                                 <td> {plan.planType} </td>
                                 <td> {plan.planName} </td>
                                 <td>{plan.planValidity}</td>
                                 <td>{plan.planDetails}</td>
                                 <td>${plan.planPrice}</td>
                                 <td>
-                                    <Link id="editMonthlyPlan" className="btn btn-info" to={`/editMonthlyPlan/${plan.planId}`} >Update</Link>                                
+                                    <Link id="editMonthlyPlan" className="btn btn-info" to={`/monthly/${plan.planId}`} >Update</Link>                                
                                     <button id="deleteMonthlyPlan" className = "btn btn-danger" onClick = {() => deleteByPlan(plan.planId)}
                                     style = {{marginLeft:"10px"}}> Delete</button>
                                 </td>

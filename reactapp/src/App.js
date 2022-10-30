@@ -5,19 +5,25 @@ import "./App.css";
 
 import AuthService from "./services/auth.service";
 
+import Home from "./component/Home/Home";
 import Login from "./component/Login/Login";
 import Signup from "./component/Signup/Signup";
-import Profile from "./component/Auth/Auth";
+import Profile from "./component/Profile/Profile";
 import Addon from './component/Addon/Addon';
 import AddAddon from './component/Addon/AddAddon';
 import Premiumplans from './component/Premiumplans/Premiumplans'
 import AddPremiumplan from './component/Premiumplans/AddPremiumplan'
 import Monthly from './component/Monthly/Monthly';
 import AddMonthly from './component/Monthly/AddMonthly';
-import Popularplans from './component/Popularplans/Popularplans'
+import Popularplans from './component/Popularplans/Popularplans';
+import Monthlyplans from "./component/Popularplans/Monthlyplans";
+import Premium from "./component/Popularplans/Premium";
 import RechargePopularplans from './component/Popularplans/RechargePopularplans';
-import Addons from './component/Addons/Addons'
-import RechargeAddons from './component/Addons/RechargeAddons'
+import Addons from './component/Addons/Addons';
+import RechargeAddons from './component/Addons/RechargeAddons';
+import RecHistory from "./component/Recharge/RecHistory";
+import AddReview from "./component/Review/AddReview";
+import Review from "./component/Review/Review";
 
 const App = () => {
   const [showUserBoard, setShowUserBoard] = useState(false);
@@ -44,59 +50,64 @@ const App = () => {
   return (
     <div>
       <nav className="navbar navbar-expand navbar-dark bg-dark">
-        <Link to={"/"} className="navbar-brand">
+        <Link to={"/home"} className="navbar-brand">
           D2H-Portal
         </Link>
         <div className="navbar-nav mr-auto">
 
           {showUserBoard && (
             <><li className="nav-item">
-              <Link to={"/getAllPopularPlans"} className="nav-link">
+              <Link to={"/plan/popular"} className="nav-link" id="userPopularPlans">
                 Popular Plans
               </Link>
             </li>
             <li className="nav-item">
-                <Link to={"/getAllRechargeAddon"} className="nav-link">
+                <Link to={"/plan/addon"} className="nav-link" id="userAddOns">
                   Addon Plans
+                </Link>
+            </li>
+            <li className="nav-item">
+                <Link to={"/history"} className="nav-link" id="notification">
+                  Recharge History
                 </Link>
             </li></>
           )}
 
           {showAdminBoard && (
             <><li className="nav-item">
-              <Link to={"/getAddon"} className="nav-link">
+              <Link to={"/addon"} className="nav-link" id="adminAddOns">
                 Addons
               </Link>
             </li>
             <li className="nav-item">
-              <Link to={"/getAllPremiumPlan"} className="nav-link">
+              <Link to={"/premium-plan"} className="nav-link" id="adminPremium">
                 Premium plans
               </Link>
             </li>
             <li className="nav-item">
-              <Link to={"/getAllMonthlyPlan"} className="nav-link">
+              <Link to={"/monthly-plan"} className="nav-link" id="adminMonthlyPlans">
                 Monthly plans
               </Link>
             </li></>
           )}
 
         </div>
-
+        <div className="navbar-nav ms-auto">
         {currentUser ? (
-          <div className="navbar-nav ml-auto">
+          <>
             <li className="nav-item">
               <Link to={"/profile"} className="nav-link">
                 Profile
               </Link>
             </li>
             <li className="nav-item">
-              <a href="/login" className="nav-link" onClick={logOut}>
+              <a href="/login" className="nav-link" id="logout" onClick={logOut}>
                 LogOut
               </a>
             </li>
-          </div>
+          </>
         ) : (
-          <div className="navbar-nav ml-auto">
+          <>
             <li className="nav-item">
               <Link to={"/login"} className="nav-link">
                 Login
@@ -108,29 +119,36 @@ const App = () => {
                 Sign Up
               </Link>
             </li>
-          </div>
+          </>
         )}
+        </div>
       </nav>
 
       <div className="container mt-3">
           <Routes>
             <Route path="/" element={<Login />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
             <Route path="/profile" element={<Profile/>} />
-            <Route path="/getAddon" element={<Addon />} />
-            <Route path="/addAddon" element={<AddAddon />} />
-            <Route path="/editAddon/:id" element={<AddAddon />}/>
-            <Route path="/getAllPremiumPlan" element={<Premiumplans />} />
-            <Route path="/addPremiumPlan" element={<AddPremiumplan />} />
-            <Route path="/editPremiumPlan/:id" element={<AddPremiumplan />}/>
-            <Route path="/getAllMonthlyPlan" element={<Monthly />} />
-            <Route path="/addMonthlyPlan" element={<AddMonthly />} />
-            <Route path="/editMonthlyPlan/:id" element={<AddMonthly />}/>
-            <Route path="/getAllPopularPlans" element={<Popularplans />}/>
-            <Route path="/rechargePlan/:id" element={<RechargePopularplans />}/>
-            <Route path="/getAllRechargeAddon" element={<Addons />}/>
-            <Route path="/rechargeAddon/:id" element={<RechargeAddons />}/>
+            <Route path="/addon" element={<Addon />} />
+            <Route path="/add-addon" element={<AddAddon />} />
+            <Route path="/addon/:id" element={<AddAddon />}/>
+            <Route path="/premium-plan" element={<Premiumplans />} />
+            <Route path="/add-premium" element={<AddPremiumplan />} />
+            <Route path="/premium/:id" element={<AddPremiumplan />}/>
+            <Route path="/monthly-plan" element={<Monthly />} />
+            <Route path="/add-monthly" element={<AddMonthly />} />
+            <Route path="/monthly/:id" element={<AddMonthly />}/>
+            <Route path="/plan/popular" element={<Popularplans />}/> 
+            <Route path="/plan/monthly" element={<Monthlyplans />}/>
+            <Route path="/plan/premium" element={<Premium />}/>
+            <Route path="/recharge/plan/:id" element={<RechargePopularplans />}/>
+            <Route path="/plan/addon" element={<Addons />}/>
+            <Route path="/recharge/addon/:id" element={<RechargeAddons />}/>
+            <Route path="/history" element={<RecHistory />}/>
+            <Route path="/add-review" element={<AddReview />}/>
+            <Route path="/review" element={<Review />}/>
           </Routes>
       </div>
 

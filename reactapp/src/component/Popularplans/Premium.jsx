@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import { Link } from 'react-router-dom'
 import UserService from '../../services/user.service'
 
-const Preimumplan = () => {
+const Premium = () => {
 
     const [plans, setPlans] = useState([])
 
@@ -13,7 +13,7 @@ const Preimumplan = () => {
 
     
     const getAllPlans = () => {
-        UserService.getAllPlans().then((response) => {
+        UserService.getAllPopularPremiumPlans().then((response) => {
             setPlans(response.data)
             console.log(response.data);
         }).catch(error =>{
@@ -21,19 +21,23 @@ const Preimumplan = () => {
         })
     };
 
-    const deleteByPlan = (planId) => {
-       UserService.deletePlan(planId).then((response) =>{
-          getAllPlans();
-       }).catch(error =>{
-           console.log(error);
-       })
-        
+    const getAllPlansDesc = () => {
+        UserService.getAllPopularPremiumPlansDesc().then((response) => {
+            setPlans(response.data)
+            console.log(response.data);
+        }).catch(error =>{
+            console.log(error);
+        })
     };
 
     return (
         <div className = "container">
-            <h2 className = "text-center"> List Premium Plans </h2>
-            <Link to = "/add-premium" className = "btn btn-primary mb-2" id="addPlan"> Add Premium Plans </Link>
+            <h2 className = "text-center"> Popular Premium Plans </h2>
+            <div>Plan Type: <Link to="/plan/popular" className="btn btn-info"> All Plans </Link>
+                            <Link to="/plan/monthly" className="btn btn-info"> Monthly Plans </Link>
+                Price: <button className="btn btn-dark" onClick={() => getAllPlansDesc()}>High to Low</button> 
+                        <button className="btn btn-dark" onClick={() => getAllPlans()}>Low to High</button>                    
+            </div>
             <table className="table table-bordered table-striped">
                 <thead>
                     <tr>
@@ -56,9 +60,7 @@ const Preimumplan = () => {
                                 <td>{plan.planDetails}</td>
                                 <td>${plan.planPrice}</td>
                                 <td>
-                                    <Link id="editPremiumPlan" className="btn btn-info" to={`/premium/${plan.planId}`} >Update</Link>                                
-                                    <button id="deletePremiumPlan" className = "btn btn-danger" onClick = {() => deleteByPlan(plan.planId)}
-                                    style = {{marginLeft:"10px"}}> Delete</button>
+                                    <Link id="PremiumGrid1" className="btn btn-success" to={`/recharge/plan/${plan.planId}`} >Select</Link>                                
                                 </td>
                             </tr>
                         )
@@ -69,4 +71,4 @@ const Preimumplan = () => {
     );
 };
 
-export default Preimumplan;
+export default Premium;
